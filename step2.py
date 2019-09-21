@@ -3,29 +3,30 @@ import math
 import numpy
 
 class LogReg:
-    def __init__(self, data, rate, ites):
-        self.rate = rate
-        self.ites = ites
+    def __init__(self, data):
         self.y = data[:,-1]
         self.x = data[:,0:-1]
-        self.w = numpy.full((self.x.shape[1], 1), 1)
 
-    def fit(self, x, y, w):
-        for i in range(self.ites):
+    def fit(self, x, y, rate, ites):
+        w = numpy.full((self.x.shape[1], 1), 1)
+        for i in range(ites):
+            w_old = w
             for j in range(x.shape[0]):
-                xv = x[j].reshape(x.shape[1],1)
-                ratio = numpy.matmul(w.transpose(), xv)[0][0]
-                dif = numpy.full((1, 1), y[j]-self.sigma(ratio))
-                wd = numpy.matmul(xv, dif)
-                w = numpy.add(w, wd)
-                print(w)
-        self.w = w
+                sigma = self.sigma(numpy.matmul(w_old.transpose(), x[j].transpose())[0])
+                w = numpy.add(w, rate * ((y[j]-sigma) * x[j].reshape(x.shape[1],1)))
         return w
 
     def sigma(self, ratio):
-        return 1 // (1 + math.exp(-ratio))
+        if ratio < 0:
+            return 1 - 1 / (1 + math.exp(ratio))
+        else:
+            return 1 / (1 + math.exp(-ratio))
+
+    # def predict(data):
+    #    for :
 
 if __name__ == "__main__":
-    l1 = LogReg(step1.process_wine(),1/100,2)
-    print(l1.fit(l1.x, l1.y, l1.w))
+    l1 = LogReg(step1.process_wine())
+    w  = l1.fit(l1.x, l1.y, 0.01, 1000)
+    print(w)
 
