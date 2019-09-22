@@ -47,7 +47,7 @@ def normalize(column):
         if i < min:
             min = i
     for i in range(column.shape[0]):
-        column[i] = column[i] / (max - min)
+        column[i] = (column[i] - min) / (max - min)
     return column
 
 if __name__ == "__main__":
