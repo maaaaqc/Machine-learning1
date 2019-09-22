@@ -26,10 +26,10 @@ class LogReg:
         r = numpy.full((val_set.shape[0], 1), 0)
         for i in range(val_set.shape[0]):
             r[i] = numpy.matmul(w.transpose(), val_set[i])
-            if self.sigma(r[i]) >= 0.5:
-                r[i] = 0
-            else:
+            if self.sigma(r[i]) > 0.5:
                 r[i] = 1
+            else:
+                r[i] = 0
         return r
 
 def kfold(data, k):
@@ -52,5 +52,5 @@ def get_accuracy(pred, fact):
     return float(count)/float(pred.shape[0])
 
 if __name__ == "__main__":
-    # kfold(step1.process_wine(), 5)
+    kfold(step1.process_wine(), 5)
     kfold(step1.process_cancer(), 5)
