@@ -46,11 +46,13 @@ def evaluate_acc(pred, fact):
         if pred[i] == fact[i]:
             count += 1
     # returns the success rate
-    return float(count)/float(pred.shape[0])
+    return count/pred.shape[0]
 
 
 if __name__ == "__main__":
-    print("Red wine quality prediction accuracy using LogReg: {:.2%}".format(kfold_logreg(Preprocessing.process_wine(), 5)))
-    print("Tumour classification prediction accuracy using LogReg: {:.2%}".format(kfold_logreg(Preprocessing.process_cancer(), 5)))
-    print("Red wine quality prediction accuracy using LDA: {:.2%}".format(kfold_lda(Preprocessing.process_wine(), 5)))
-    print("Tumour classification prediction accuracy using LDA: {:.2%}".format(kfold_lda(Preprocessing.process_cancer(), 5)))
+    wine_path = str(Preprocessing.WINEDIR)
+    cancer_path = str(Preprocessing.CANCERDIR)
+    print("Red wine quality prediction accuracy using LogReg: {:.2%}".format(kfold_logreg(Preprocessing.process_wine(wine_path), 5)))
+    print("Tumor classification prediction accuracy using LogReg: {:.2%}".format(kfold_logreg(Preprocessing.process_cancer(cancer_path), 5)))
+    print("Red wine quality prediction accuracy using LDA: {:.2%}".format(kfold_lda(Preprocessing.process_wine(wine_path), 5)))
+    print("Tumor classification prediction accuracy using LDA: {:.2%}".format(kfold_lda(Preprocessing.process_cancer(cancer_path), 5)))

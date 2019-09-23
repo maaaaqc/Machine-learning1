@@ -4,15 +4,10 @@ from pathlib import Path
 WINEDIR = Path.cwd() / "wine" / "winequality-red.csv"
 CANCERDIR = Path.cwd() / "cancer" / "breast-cancer-wisconsin.data"
 
-def process_wine():
-    red_wine = numpy.genfromtxt(str(WINEDIR), delimiter=";", skip_header=True)
+def process_wine(filename):
+    red_wine = numpy.genfromtxt(filename, delimiter=";", skip_header=True)
     # deletes rows containing NaN values
-    index = 0
-    for row in red_wine:
-        if numpy.isnan(row).any():
-            red_wine = numpy.delete(red_wine, index, 0)
-        else:
-            index += 1
+    red_wine = red_wine[~numpy.isnan(red_wine).any(axis=1)]
     # classifies wines into 1 and 0
     for row in red_wine:
         if row[-1] > 5:
@@ -26,15 +21,10 @@ def process_wine():
     return red_wine
 
 
-def process_cancer():
-    breast_cancer = numpy.genfromtxt(str(CANCERDIR), delimiter=",", skip_header=False)[:,1:]
+def process_cancer(filename):
+    breast_cancer = numpy.genfromtxt(filename, delimiter=",", skip_header=False)[:,1:]
     # deletes rows containing NaN values
-    index = 0
-    for row in breast_cancer:
-        if numpy.isnan(row).any():
-            breast_cancer = numpy.delete(breast_cancer, index, axis=0)
-        else:
-            index += 1
+    breast_cancer = breast_cancer[~numpy.isnan(breast_cancer).any(axis=1)]
     # classifies wines into 1 and 0
     for row in breast_cancer:
         if row[-1] > 2:

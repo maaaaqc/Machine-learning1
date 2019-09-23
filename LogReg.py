@@ -9,7 +9,8 @@ class LogReg:
 
 
     def fit(self, start_rate, end_rate, ites):
-        w = numpy.full((self.x.shape[1], 1), 1)
+        # generates a srandom start from standard normal distribution
+        w = numpy.random.randn(self.x.shape[1], 1)
         w = self.grad_descent(start_rate, ites, w)
         w = self.grad_descent(end_rate, ites, w)
         return w
