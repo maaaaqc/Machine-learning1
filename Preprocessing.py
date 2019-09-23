@@ -31,7 +31,7 @@ def process_cancer():
     index = 0
     for row in breast_cancer:
         if numpy.isnan(row).any():
-            breast_cancer = numpy.delete(breast_cancer, index, 0)
+            breast_cancer = numpy.delete(breast_cancer, index, axis=0)
         else:
             index += 1
     # classifies wines into 1 and 0
