@@ -26,7 +26,7 @@ def process_wine():
 
 
 def process_cancer():
-    breast_cancer = numpy.genfromtxt(str(CANCERDIR), delimiter=",", skip_header=False)[:,1:-1]
+    breast_cancer = numpy.genfromtxt(str(CANCERDIR), delimiter=",", skip_header=False)[:,1:]
     # deletes rows containing NaN values
     index = 0
     for row in breast_cancer:

@@ -14,7 +14,7 @@ class LogReg:
             w_old = w
             for j in range(self.x.shape[0]):
                 #calculates the sigma function result
-                sigma = self.sigma(numpy.matmul(w_old.transpose(), self.x[j].transpose())[0])
+                sigma = self.sigma(numpy.dot(w_old.transpose(), self.x[j].transpose())[0])
                 # updates w
                 w = numpy.add(w, start_rate * ((self.y[j]-sigma) * self.x[j].reshape(self.x.shape[1],1)))
         for i in range(ites):
@@ -22,7 +22,7 @@ class LogReg:
             w_old = w
             for j in range(self.x.shape[0]):
                 #calculates the sigma function result
-                sigma = self.sigma(numpy.matmul(w_old.transpose(), self.x[j].transpose())[0])
+                sigma = self.sigma(numpy.dot(w_old.transpose(), self.x[j].transpose())[0])
                 # updates w
                 w = numpy.add(w, end_rate * ((self.y[j]-sigma) * self.x[j].reshape(self.x.shape[1],1)))
         return w
@@ -40,7 +40,7 @@ class LogReg:
     def predict(self, val_set, w):
         result = numpy.full((val_set.shape[0], 1), 0)
         for i in range(val_set.shape[0]):
-            result[i] = numpy.matmul(w.transpose(), val_set[i])
+            result[i] = numpy.dot(w.transpose(), val_set[i])
             # calculates estimated P(y=1|x) and classifies with boundary 0.5
             if self.sigma(result[i]) > 0.5:
                 result[i] = 1
