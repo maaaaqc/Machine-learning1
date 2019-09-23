@@ -59,7 +59,3 @@ def normalize(column):
         for i in range(column.shape[0]):
             column[i] = (column[i] - min) / (max - min)
     return column
-
-
-if __name__ == "__main__":
-    process_wine()
