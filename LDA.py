@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import step1
-import step2
+import Preprocessing
 import numpy
 import math
 
@@ -18,15 +17,14 @@ class LDA:
         return w0
     
     def fit(self):
-         w = numpy.matmul(numpy.linalg.inv(self.cov()), numpy.subtract(self.mean(1), self.mean(0)))
-         return w
+        w = numpy.matmul(numpy.linalg.inv(self.cov()), numpy.subtract(self.mean(1), self.mean(0)))
+        return w
          
     def mean(self, clss):
-        mu = numpy.full((self.x.shape[1], 1), 0)
+        mu = numpy.full((self.x.shape[1],1), 0)
         for i in range(self.x.shape[0]):
             if self.y[i] == clss:
-                mu = numpy.add(mu, self.x[i])
-        print(mu/self.N0)
+                mu = numpy.add(mu, self.x[i].reshape(self.x.shape[1],1))
         return mu / self.N0
          
     def cov(self):
@@ -34,16 +32,14 @@ class LDA:
         for k in [0,1]:
             for i in range(self.x.shape[0]):
                 if self.y[i] == k:
-                    a = self.x[i] - self.mean(k)
-                    #print(a)
-                    #print(numpy.matmul(numpy.transpose(a), a))
-                    c = numpy.add(c, numpy.matmul(numpy.transpose(a), a))
+                    a = numpy.subtract(self.x[i].reshape(self.x.shape[1],1), self.mean(k))
+                    c = numpy.add(c, numpy.matmul(a, numpy.transpose(a)))
         return c / (self.N0 + self.N1 - 2)
     
     def predict(self, val_set, w):
         r = numpy.full((val_set.shape[0], 1), 0)
-        for i in range(1):
-            print(w)
+        for i in range(val_set.shape[0]):
+            #print(w)
             #print(self.w0())
             r[i] = numpy.matmul(numpy.transpose(w), val_set[i]) + self.w0()
             if r[i] > 0:
@@ -53,17 +49,32 @@ class LDA:
         return r
     
 def kfold(data, k):
+    # shuffles the data and group them into k groups
     numpy.random.shuffle(data)
     groups = numpy.array_split(data, k, axis=0)
-    for i in range(1):
+    # averages the acuracy of k predictions
+    acc = 0
+    for i in range(k):
         val_set = groups[i][:,0:-1]
         true_val = groups[i][:,-1]
         train_set = numpy.concatenate(groups[:i] + groups[i+1:], axis=0)
+        # build a model using the training set
         model = LDA(train_set)
         w = model.fit()
         r = model.predict(val_set, w)
-        print(step2.get_accuracy(r, true_val))
+        acc += evaluate_acc(r, true_val)
+    acc /= k
+    return acc
+        
+def evaluate_acc(pred, fact):
+    # counts the number of successful predictions
+    count = 0
+    for i in range(pred.shape[0]):
+        if pred[i] == fact[i]:
+            count += 1
+    # returns the success rate
+    return float(count)/float(pred.shape[0])
                     
 if __name__ == "__main__":
-    kfold(step1.process_wine(), 5)
-    kfold(step1.process_cancer(), 5)
+    kfold(Preprocessing.process_wine(), 5)
+    kfold(Preprocessing.process_cancer(), 5)
