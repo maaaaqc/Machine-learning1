@@ -14,7 +14,7 @@ def kfold(data, k):
         train_set = numpy.concatenate(groups[:i] + groups[i+1:], axis=0)
         # build a model using the training set
         model = LogReg(train_set)
-        w = model.fit(0.005, 1000)
+        w = model.fit(0.05, 0.005, 500)
         r = model.predict(val_set, w)
         acc += evaluate_acc(r, true_val)
     acc /= k
@@ -32,5 +32,5 @@ def evaluate_acc(pred, fact):
 
 
 if __name__ == "__main__":
-    print(kfold(Preprocessing.process_wine(), 5))
-    print(kfold(Preprocessing.process_cancer(), 5))
+    print("Red wine quality prediction accuracy: {:.2%}".format(kfold(Preprocessing.process_wine(), 5)))
+    print("Tumour classification prediction accuracy: {:.2%}".format(kfold(Preprocessing.process_cancer(), 5)))

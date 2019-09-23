@@ -7,7 +7,7 @@ class LogReg:
         self.x = data[:,0:-1]
 
 
-    def fit(self, rate, ites):
+    def fit(self, start_rate, end_rate, ites):
         w = numpy.full((self.x.shape[1], 1), 1)
         for i in range(ites):
             # stores the value of wk
@@ -16,7 +16,15 @@ class LogReg:
                 #calculates the sigma function result
                 sigma = self.sigma(numpy.matmul(w_old.transpose(), self.x[j].transpose())[0])
                 # updates w
-                w = numpy.add(w, rate * ((self.y[j]-sigma) * self.x[j].reshape(self.x.shape[1],1)))
+                w = numpy.add(w, start_rate * ((self.y[j]-sigma) * self.x[j].reshape(self.x.shape[1],1)))
+        for i in range(ites):
+            # stores the value of wk
+            w_old = w
+            for j in range(self.x.shape[0]):
+                #calculates the sigma function result
+                sigma = self.sigma(numpy.matmul(w_old.transpose(), self.x[j].transpose())[0])
+                # updates w
+                w = numpy.add(w, end_rate * ((self.y[j]-sigma) * self.x[j].reshape(self.x.shape[1],1)))
         return w
 
 
