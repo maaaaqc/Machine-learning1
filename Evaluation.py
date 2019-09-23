@@ -33,7 +33,7 @@ def kfold_lda(data, k):
         train_set = numpy.concatenate(groups[:i] + groups[i+1:], axis=0)
         # build a model using the training set
         model = LDA(train_set)
-        w = model.fit()
+        w = model.fit(model.cvinv, model.u)
         r = model.predict(val_set, w)
         acc += evaluate_acc(r, true_val)
     acc /= k
@@ -50,7 +50,7 @@ def evaluate_acc(pred, fact):
 
 
 if __name__ == "__main__":
-    print("Red wine quality prediction accuracy: {:.2%}".format(kfold_logreg(Preprocessing.process_wine(), 5)))
-    print("Tumour classification prediction accuracy: {:.2%}".format(kfold_logreg(Preprocessing.process_cancer(), 5)))
-    print("Red wine quality prediction accuracy: {:.2%}".format(kfold_lda(Preprocessing.process_wine(), 5)))
-    print("Tumour classification prediction accuracy: {:.2%}".format(kfold_lda(Preprocessing.process_cancer(), 5)))
+    print("Red wine quality prediction accuracy using LogReg: {:.2%}".format(kfold_logreg(Preprocessing.process_wine(), 5)))
+    print("Tumour classification prediction accuracy using LogReg: {:.2%}".format(kfold_logreg(Preprocessing.process_cancer(), 5)))
+    print("Red wine quality prediction accuracy using LDA: {:.2%}".format(kfold_lda(Preprocessing.process_wine(), 5)))
+    print("Tumour classification prediction accuracy using LDA: {:.2%}".format(kfold_lda(Preprocessing.process_cancer(), 5)))

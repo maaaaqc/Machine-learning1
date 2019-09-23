@@ -22,6 +22,7 @@ def process_wine():
     # normalizes each column
     for i in range(red_wine.shape[1]):
         red_wine[:,i] = normalize(red_wine[:,i])
+    # red_wine = select_feature_wine(red_wine)
     return red_wine
 
 
@@ -41,8 +42,9 @@ def process_cancer():
         else: 
             row[-1] = 0
     # normalizes each column
-    for i in range(breast_cancer.shape[1]-1):
+    for i in range(breast_cancer.shape[1]):
         breast_cancer[:,i] = normalize(breast_cancer[:,i])
+    #breast_cancer = select_feature_wine(breast_cancer)
     return breast_cancer
 
 
@@ -58,4 +60,21 @@ def normalize(column):
     if not max == min:
         for i in range(column.shape[0]):
             column[i] = (column[i] - min) / (max - min)
+    else:
+        if max != 0:
+            column[i] = column[i] / max
     return column
+
+
+def select_feature_wine(dataset):
+    to_del = [4, 1]
+    for i in to_del:
+        dataset = numpy.delete(dataset, i, axis=1)
+    return dataset
+
+
+def select_feature_cancer(dataset):
+    to_del = [8, 7, 3, 0]
+    for i in to_del:
+        dataset = numpy.delete(dataset, i, axis=1)
+    return dataset

@@ -4,7 +4,8 @@ import numpy
 class LogReg:
     def __init__(self, data):
         self.y = data[:,-1]
-        self.x = data[:,0:-1]
+        w0 = numpy.full((data.shape[0], 1), 1)
+        self.x = numpy.concatenate((w0, data[:,0:-1]), axis=1)
 
 
     def fit(self, start_rate, end_rate, ites):
@@ -38,6 +39,8 @@ class LogReg:
 
 
     def predict(self, val_set, w):
+        w0 = numpy.full((val_set.shape[0], 1), 1)
+        val_set= numpy.concatenate((w0, val_set), axis=1)
         result = numpy.full((val_set.shape[0], 1), 0)
         for i in range(val_set.shape[0]):
             result[i] = numpy.dot(w.transpose(), val_set[i])
