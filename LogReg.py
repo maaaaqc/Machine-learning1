@@ -10,6 +10,12 @@ class LogReg:
 
     def fit(self, start_rate, end_rate, ites):
         w = numpy.full((self.x.shape[1], 1), 1)
+        w = self.grad_descent(start_rate, ites, w)
+        w = self.grad_descent(end_rate, ites, w)
+        return w
+    
+
+    def grad_descent(self, rate, ites, w):
         for i in range(ites):
             # stores the value of wk
             w_old = w
@@ -17,15 +23,7 @@ class LogReg:
                 #calculates the sigma function result
                 sigma = self.sigma(numpy.dot(w_old.transpose(), self.x[j].transpose())[0])
                 # updates w
-                w = numpy.add(w, start_rate * ((self.y[j]-sigma) * self.x[j].reshape(self.x.shape[1],1)))
-        for i in range(ites):
-            # stores the value of wk
-            w_old = w
-            for j in range(self.x.shape[0]):
-                #calculates the sigma function result
-                sigma = self.sigma(numpy.dot(w_old.transpose(), self.x[j].transpose())[0])
-                # updates w
-                w = numpy.add(w, end_rate * ((self.y[j]-sigma) * self.x[j].reshape(self.x.shape[1],1)))
+                w = numpy.add(w, rate * ((self.y[j]-sigma) * self.x[j].reshape(self.x.shape[1],1)))
         return w
 
 
