@@ -14,15 +14,15 @@ def process_wine(filename):
             row[-1] = 1
         else: 
             row[-1] = 0
+    red_wine = select_feature(red_wine, [8, 7, 3, 0])
     # normalizes each column
     for i in range(red_wine.shape[1]):
         red_wine[:,i] = normalize(red_wine[:,i])
-    # red_wine = select_feature_wine(red_wine)
     return red_wine
 
 
 def process_cancer(filename):
-    breast_cancer = numpy.genfromtxt(filename, delimiter=",", skip_header=False)[:,1:]
+    breast_cancer = numpy.genfromtxt(filename, delimiter=",")[:,1:]
     # deletes rows containing NaN values
     breast_cancer = breast_cancer[~numpy.isnan(breast_cancer).any(axis=1)]
     # classifies wines into 1 and 0
@@ -34,7 +34,7 @@ def process_cancer(filename):
     # normalizes each column
     for i in range(breast_cancer.shape[1]):
         breast_cancer[:,i] = normalize(breast_cancer[:,i])
-    #breast_cancer = select_feature_wine(breast_cancer)
+    breast_cancer = select_feature(breast_cancer, [4, 1])
     return breast_cancer
 
 
@@ -56,15 +56,18 @@ def normalize(column):
     return column
 
 
-def select_feature_wine(dataset):
-    to_del = [4, 1]
-    for i in to_del:
+def select_feature(dataset, indices):
+    for i in indices:
         dataset = numpy.delete(dataset, i, axis=1)
     return dataset
 
 
-def select_feature_cancer(dataset):
-    to_del = [8, 7, 3, 0]
-    for i in to_del:
-        dataset = numpy.delete(dataset, i, axis=1)
+def scale_feature(dataset, indices):
+    for i in indices:
+        dataset[:,i] = numpy.square(dataset[:,i])
+        col = col.reshape(col.shape[0], 1)
+        print(col)
+        print(col.shape)
+        print(dataset.shape)
+        dataset = numpy.concatenate((dataset, col), axis=1)
     return dataset

@@ -6,6 +6,16 @@ class LogReg:
         self.y = data[:,-1]
         w0 = numpy.full((data.shape[0], 1), 1)
         self.x = numpy.concatenate((w0, data[:,0:-1]), axis=1)
+        # self.x = self.add_dimension(self.x)
+
+
+    def add_dimension(self, dataset):
+        indices = [1, 4]
+        for i in indices:
+            col = numpy.square(dataset[:,i])
+            col = col.reshape(col.shape[0], 1)
+            dataset = numpy.concatenate((dataset, col), axis=1)
+        return dataset
 
 
     def fit(self, start_rate, end_rate, ites):
@@ -39,10 +49,11 @@ class LogReg:
 
     def predict(self, val_set, w):
         w0 = numpy.full((val_set.shape[0], 1), 1)
-        val_set= numpy.concatenate((w0, val_set), axis=1)
-        result = numpy.full((val_set.shape[0], 1), 0)
+        val_set = numpy.concatenate((w0, val_set), axis=1)
+        # val_set = self.add_dimension(val_set)
+        result = []
         for i in range(val_set.shape[0]):
-            result[i] = numpy.dot(w.transpose(), val_set[i])
+            result.append(numpy.dot(w.transpose(), val_set[i]))
             # calculates estimated P(y=1|x) and classifies with boundary 0.5
             if self.sigma(result[i]) > 0.5:
                 result[i] = 1
