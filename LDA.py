@@ -50,11 +50,11 @@ class LDA:
 
 
     def predict(self, val_set, w):
-        r = []
+        result = []
         for i in range(val_set.shape[0]):
-            r.append(numpy.dot(val_set[i].transpose(), w) + self.w0)
-            if r[i] > 0:
-                r[i] = 1
+            result.append(numpy.dot(val_set[i].transpose(), w) + self.w0)
+            if result[i] > 0:
+                result[i] = 1
             else:
-                r[i] = 0
-        return r
+                result[i] = 0
+        return result

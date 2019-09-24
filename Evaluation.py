@@ -21,7 +21,7 @@ def kfold(data, k, model):
         # build a model using the training set
         if model == Model.logreg:
             model = LogReg(train_set)
-            w = model.fit(0.05, 0.005, 500)
+            w = model.fit(0.1, 0.005, 100)
         elif model == Model.lda:
             model = LDA(train_set)
             w = model.fit(model.cvinv, model.u)
