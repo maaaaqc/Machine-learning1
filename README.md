@@ -1,6 +1,6 @@
 ## Machine Learning Group Project 1
 * Group memebers: Qingchuan Ma, Jiaqi Peng, Qingyue Ma
-* Features: Logistic Regression, Linear Discrimitive Analysis
+* Features: Logistic Regression, Linear Discriminative Analysis
 * Main functions: 
 ```console
 LogReg.fit() # computes the w vector for regression

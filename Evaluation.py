@@ -21,6 +21,7 @@ def kfold_logreg(data, k):
     acc /= k
     return acc
 
+
 def kfold_lda(data, k):
     # shuffles the data and group them into k groups
     numpy.random.shuffle(data)
@@ -39,14 +40,15 @@ def kfold_lda(data, k):
     acc /= k
     return acc
 
+
 def evaluate_acc(pred, fact):
     # counts the number of successful predictions
     count = 0
-    for i in range(pred.shape[0]):
+    for i in range(len(pred)):
         if pred[i] == fact[i]:
             count += 1
     # returns the success rate
-    return count/pred.shape[0]
+    return count/len(pred)
 
 
 if __name__ == "__main__":
