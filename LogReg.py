@@ -8,16 +8,6 @@ class LogReg:
         w0 = numpy.full((data.shape[0], 1), 1)
         # concatenates w0 onto x
         self.x = numpy.concatenate((w0, data[:, 0:-1]), axis=1)
-        # self.x = self.add_dimension(self.x)
-
-    def add_dimension(self, dataset):
-        # add two new features (square of the most important attributes)
-        indices = [1, 4]
-        for i in indices:
-            col = numpy.square(dataset[:, i])
-            col = col.reshape(col.shape[0], 1)
-            dataset = numpy.concatenate((dataset, col), axis=1)
-        return dataset
 
     def fit(self, start_rate, end_rate, ites):
         # generates a srandom start from standard normal distribution
