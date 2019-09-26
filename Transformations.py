@@ -14,3 +14,16 @@ def add_feature(dataset, indices):
             vector[j] = vector[j] * dataset[j, i]
     dataset = numpy.concatenate((dataset, vector), axis=1)
     return dataset
+
+
+def find_outliers(x, outlierConstant):
+    resultList = []
+    upper_quartile = numpy.percentile(x, 75)
+    lower_quartile = numpy.percentile(x, 25)
+    IQR = (upper_quartile - lower_quartile) * outlierConstant
+    quartileSet = (lower_quartile - IQR, upper_quartile + IQR)
+    for i in range(x.shape[0]):
+        if x[i] <= quartileSet[0] or x[i] >= quartileSet[1]:
+            resultList.append(i)
+    resultList.reverse()
+    return resultList
