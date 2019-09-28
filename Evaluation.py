@@ -55,8 +55,9 @@ if __name__ == "__main__":
     wine_path = str(Preprocessing.WINEDIR)
     cancer_path = str(Preprocessing.CANCERDIR)
     # prints the average accuracy of 5-fold experiments
-    logreg_wine = kfold(Preprocessing.process_wine(wine_path), 5, Model.logreg)
-    print("Red wine quality prediction accuracy using LogReg: {:.2%}".format(logreg_wine[0]))
+    for i in range(10):
+        logreg_wine = kfold(Preprocessing.process_wine(wine_path), 5, Model.logreg)
+        print("Red wine quality prediction accuracy using LogReg: {:.2%}".format(logreg_wine[0]))
     # print("Red wine quality prediction time cost using LogReg: {:.5} miliseconds".format(logreg_wine[1]))
     # lda_wine = kfold(Preprocessing.process_wine(wine_path), 5, Model.lda)
     # print("Red wine quality prediction accuracy using LDA: {:.2%}".format(lda_wine[0]))

@@ -16,22 +16,22 @@ def process_wine(filename):
             row[-1] = 1
         else:
             row[-1] = 0
+    # removes outliers from selected columns
+    list_del = {3, 4, 9}
+    for i in list_del:
+        li = Transformations.find_outliers(red_wine[:, i], 1.8)
+        for j in li:
+            red_wine = numpy.delete(red_wine, j, axis=0)
     # adds features
     # y = red_wine[:, -1]
     # x = red_wine[:, 0:-1]
-    # x = Transformations.add_feature(x, [1,4])
-    # red_wine = numpy.concatenate((x, y.reshape(y.shape[0],1)), axis=1)
+    # x = Transformations.add_feature(x, [1, 4])
+    # red_wine = numpy.concatenate((x, y.reshape(y.shape[0], 1)), axis=1)
     # selects features
-    # red_wine = Transformations.select_feature(red_wine, [7, 0])
-    red_wine = Transformations.select_feature(red_wine, [8, 7, 3, 0])
+    # red_wine = Transformations.select_feature(red_wine, [8])
     # normalizes each column
     for i in range(red_wine.shape[1]):
         red_wine[:, i] = normalize(red_wine[:, i])
-    for i in range(red_wine.shape[1]-1):
-        li = Transformations.find_outliers(red_wine[:, i], 1.98)
-        for j in li:
-            print(red_wine[j])
-            red_wine = numpy.delete(red_wine, j, axis=0)
     return red_wine
 
 
