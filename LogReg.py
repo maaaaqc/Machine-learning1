@@ -9,11 +9,11 @@ class LogReg:
         # concatenates w0 onto x
         self.x = numpy.concatenate((w0, data[:, 0:-1]), axis=1)
 
-    def fit(self, start_rate, end_rate, ites):
+    def fit(self, rate, ites):
         # generates a srandom start from standard normal distribution
         w = numpy.random.randn(self.x.shape[1], 1)
-        w = self.grad_descent(start_rate, ites, w)
-        w = self.grad_descent(end_rate, ites, w)
+        w = self.grad_descent(rate, ites, w)
+        w = self.grad_descent(rate/20, ites, w)
         return w
 
     def grad_descent(self, rate, ites, w):
