@@ -23,7 +23,7 @@ python Evaluation.py -lda
 ```console
 python Evaluation.py -wine
 ```
-* To see results for prediction accuracy on wine dataset:
+* To see results for prediction accuracy on cancer dataset:
 ```console
 python Evaluation.py -cancer
 ```
