@@ -48,3 +48,30 @@ class LogReg:
             else:
                 result[i] = 0
         return result
+
+    # some helper funcitons used for analysis
+    def mean(self):
+        # calculates the mean vector of X's
+        mu = numpy.full(self.x.shape[1], 0)
+        for i in range(self.x.shape[0]):
+            mu = numpy.add(mu, self.x[i])
+        mean = mu / self.x.shape[0]
+        return mean
+
+    def corr(self):
+        # calculate the correlation between each feature X and Y
+        ux = self.mean()
+        uy = 0
+        num = numpy.full(self.x.shape[1], 0)
+        denum0 = numpy.full(self.x.shape[1], 0)
+        denum1 = 0
+        for i in range(self.y.shape[0]):
+            uy = uy + self.y[i]
+        uy = uy / self.y.shape[0]
+        for i in range(self.x.shape[0]):
+            num = numpy.add(num, (self.x[i] - ux) * (self.y[i] - uy))
+            denum0 = numpy.add(denum0, numpy.power(self.x[i], 2))
+            denum1 = denum1 + (self.y[i] - uy) ** 2
+        denum = numpy.sqrt(denum0 * denum1)
+        corr = numpy.divide(num, denum)
+        return corr
